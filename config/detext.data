@@ -1,0 +1,6 @@
+classes=1
+train=data/detext/train_images/
+train_label=data/detext/train_gt/
+valid=data/detext/validation_images/
+valid_label=data/detext/validation_gt/
+names=data/detext.names
