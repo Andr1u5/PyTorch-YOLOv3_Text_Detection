@@ -1,16 +1,19 @@
 # PyTorch-YOLOv3 For text Detection
-The code was taken and modified from https://github.com/eriklindernoren/PyTorch-YOLOv3
+The code was adopted from inilial code that can be found at https://github.com/eriklindernoren/PyTorch-YOLOv3
 
-Modification from original
-Supports torch v0.4
-Implementation of Logging results to text files as well as using Visdom to plot
-utilizing visdom removed the need to use tensorboard and tensorflow, both packages no longer required.
-A minimal PyTorch implementation of YOLOv3, with support for training, inference and evaluation.
+## The code was modified to work with Detext dataset and changes to code are required to work on different datasets
+
+Modification from original code now supports Torch v 0.4.
+Results now being logged to text files as well Visdom dashboard.
+Utilizing visdom removed the need to use tensorboard and tensorflow, both packages no longer required.
+The data loader was also modified to read files from directories without a need of txt log containing path and name for each file.
+
+The work is taking place on this personal project to adapt YOLOv3 for text detection and changes will be regulary added
 
 ## Installation
 ##### Clone and install requirements
-    $ git clone https://github.com/eriklindernoren/PyTorch-YOLOv3
-    $ cd PyTorch-YOLOv3/
+    $ git clone https://github.com/Andr1u5/PyTorch-YOLOv3_Text_Detection
+    $ cd PyTorch-YOLOv3_Text_Detection/
     $ sudo pip3 install -r requirements.txt
 
 
@@ -29,6 +32,7 @@ $ train.py [-h] [--epochs EPOCHS] [--batch_size BATCH_SIZE]
 ```
 
 #### Training log
+training logs kept in the same format as initial implementation but there is no need to use terminaltables
 ```
 ---- [Epoch 7/100, Batch 7300/14658] ----
 | -----------|--------------|--------------|------------- |
