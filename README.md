@@ -1,4 +1,10 @@
-# PyTorch-YOLOv3
+# PyTorch-YOLOv3 For text Detection
+The code was taken and modified from https://github.com/eriklindernoren/PyTorch-YOLOv3
+
+Modification from original
+Supports torch v0.4
+Implementation of Logging results to text files as well as using Visdom to plot
+utilizing visdom removed the need to use tensorboard and tensorflow, both packages no longer required.
 A minimal PyTorch implementation of YOLOv3, with support for training, inference and evaluation.
 
 ## Installation
@@ -7,42 +13,6 @@ A minimal PyTorch implementation of YOLOv3, with support for training, inference
     $ cd PyTorch-YOLOv3/
     $ sudo pip3 install -r requirements.txt
 
-##### Download pretrained weights
-    $ cd weights/
-    $ bash download_weights.sh
-
-##### Download COCO
-    $ cd data/
-    $ bash get_coco_dataset.sh
-    
-## Test
-Evaluates the model on COCO test.
-
-    $ python3 test.py --weights_path weights/yolov3.weights
-
-| Model                   | mAP (min. 50 IoU) |
-| ----------------------- |:-----------------:|
-| YOLOv3 608 (paper)      | 57.9              |
-| YOLOv3 608 (this impl.) | 57.3              |
-| YOLOv3 416 (paper)      | 55.3              |
-| YOLOv3 416 (this impl.) | 55.5              |
-
-## Inference
-Uses pretrained weights to make predictions on images. Below table displays the inference times when using as inputs images scaled to 256x256. The ResNet backbone measurements are taken from the YOLOv3 paper. The Darknet-53 measurement marked shows the inference time of this implementation on my 1080ti card.
-
-| Backbone                | GPU      | FPS      |
-| ----------------------- |:--------:|:--------:|
-| ResNet-101              | Titan X  | 53       |
-| ResNet-152              | Titan X  | 37       |
-| Darknet-53 (paper)      | Titan X  | 76       |
-| Darknet-53 (this impl.) | 1080ti   | 74       |
-
-    $ python3 detect.py --image_folder data/samples/
-
-<p align="center"><img src="assets/giraffe.png" width="480"\></p>
-<p align="center"><img src="assets/dog.png" width="480"\></p>
-<p align="center"><img src="assets/traffic.png" width="480"\></p>
-<p align="center"><img src="assets/messi.png" width="480"\></p>
 
 ## Train
 ```
@@ -55,20 +25,15 @@ $ train.py [-h] [--epochs EPOCHS] [--batch_size BATCH_SIZE]
                 [--evaluation_interval EVALUATION_INTERVAL]
                 [--compute_map COMPUTE_MAP]
                 [--multiscale_training MULTISCALE_TRAINING]
-```
-
-#### Example (COCO)
-To train on COCO using a Darknet-53 backend pretrained on ImageNet run: 
-```
-$ python3 train.py --data_config config/coco.data  --pretrained_weights weights/darknet53.conv.74
+                [--log LOG_NAME]
 ```
 
 #### Training log
 ```
 ---- [Epoch 7/100, Batch 7300/14658] ----
-+------------+--------------+--------------+--------------+
+| -----------|--------------|--------------|------------- |
 | Metrics    | YOLO Layer 0 | YOLO Layer 1 | YOLO Layer 2 |
-+------------+--------------+--------------+--------------+
+| -----------|--------------|--------------|------------- |
 | grid_size  | 16           | 32           | 64           |
 | loss       | 1.554926     | 1.446884     | 1.427585     |
 | x          | 0.028157     | 0.044483     | 0.051159     |
@@ -83,54 +48,21 @@ $ python3 train.py --data_config config/coco.data  --pretrained_weights weights/
 | precision  | 0.520000     | 0.300000     | 0.070175     |
 | conf_obj   | 0.599058     | 0.622685     | 0.651472     |
 | conf_noobj | 0.003778     | 0.004039     | 0.004044     |
-+------------+--------------+--------------+--------------+
+| -----------|--------------|--------------|--------------|
 Total Loss 4.429395
 ---- ETA 0:35:48.821929
 ```
 
-#### Tensorboard
-Track training progress in Tensorboard:
-* Initialize training
-* Run the command below
-* Go to http://localhost:6006/
-
-```
-$ tensorboard --logdir='logs' --port=6006
-```
-
-## Train on Custom Dataset
-
-#### Custom model
-Run the commands below to create a custom model definition, replacing `<num-classes>` with the number of classes in your dataset.
-
-```
-$ cd config/                                # Navigate to config dir
-$ bash create_custom_model.sh <num-classes> # Will create custom model 'yolov3-custom.cfg'
-```
-
-#### Classes
-Add class names to `data/custom/classes.names`. This file should have one row per class name.
-
-#### Image Folder
-Move the images of your dataset to `data/custom/images/`.
-
-#### Annotation Folder
-Move your annotations to `data/custom/labels/`. The dataloader expects that the annotation file corresponding to the image `data/custom/images/train.jpg` has the path `data/custom/labels/train.txt`. Each row in the annotation file should define one bounding box, using the syntax `label_idx x_center y_center width height`. The coordinates should be scaled `[0, 1]`, and the `label_idx` should be zero-indexed and correspond to the row number of the class name in `data/custom/classes.names`.
-
-#### Define Train and Validation Sets
-In `data/custom/train.txt` and `data/custom/valid.txt`, add paths to images that will be used as train and validation data respectively.
-
-#### Train
-To train on the custom dataset run:
-
-```
-$ python3 train.py --model_def config/yolov3-custom.cfg --data_config config/custom.data
-```
-
-Add `--pretrained_weights weights/darknet53.conv.74` to train using a backend pretrained on ImageNet.
-
+#### Visdom
+Track training progress in Visdom:
+* Initialize visdom server
+* Run the commands below
+* $ python -m visdom.server
+* The dashboard can now be accessed http://localhost:8097
 
 ## Credit
+### Initial Code taken from
+https://github.com/eriklindernoren/PyTorch-YOLOv3
 
 ### YOLOv3: An Incremental Improvement
 _Joseph Redmon, Ali Farhadi_ <br>
