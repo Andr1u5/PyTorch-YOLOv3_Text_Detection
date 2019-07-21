@@ -4,7 +4,7 @@ The code was adopted from inilial code that can be found at https://github.com/e
 ## The code was modified to work with Detext dataset and changes to code are required to work on different datasets
 
 Modification from original code now supports Torch v 0.4.
-Results now being logged to text files as well Visdom dashboard.
+Results now being logged to text files as well as Visdom dashboard.
 Utilizing visdom removed the need to use tensorboard and tensorflow, both packages no longer required.
 The data loader was also modified to read files from directories without a need of txt log containing path and name for each file.
 
