@@ -5,3 +5,4 @@ matplotlib
 visdom
 pillow
 tqdm
+pytesseract
