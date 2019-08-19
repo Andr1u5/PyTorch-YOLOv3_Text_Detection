@@ -85,11 +85,11 @@ if __name__ == "__main__":
             model.load_darknet_weights(opt.pretrained_weights)
 
     # Get dataloader
-    dataset = ListDataset(train_path, train_label_path, img_size=opt.img_size, augment=False, multiscale=opt.multiscale_training)# augment = changed to false
+    dataset = ListDataset(train_path, train_label_path, img_size=opt.img_size, augment=True, multiscale=opt.multiscale_training)# augment = changed to false
     dataloader = torch.utils.data.DataLoader(
         dataset,
         batch_size=opt.batch_size,
-        shuffle=False, #changed to false
+        shuffle=True,
         num_workers=opt.n_cpu,
         pin_memory=True,
         collate_fn=dataset.collate_fn,
@@ -234,7 +234,7 @@ if __name__ == "__main__":
                 im_path=valid_path,
                 im_gt_path=valid_label_path,
                 iou_thres=0.5,
-                conf_thres=0.2, #changed from 0.5 to 0.2
+                conf_thres=0.5, #changed from 0.5 to 0.2
                 nms_thres=0.5, #changed from 0.5 to 0.2
                 img_size=opt.img_size,
                 batch_size=opt.batch_size,
@@ -276,6 +276,8 @@ if __name__ == "__main__":
             print(f"---- mAP {AP.mean()}")
             #======= plotting mean AP for the epoch ============
             plots.plot("mAP_Epoch", "Mean AP", "Mean AP", epoch, AP.mean(), "Epochs")
-            
+            plots.plot("Recall_Epoch", "Recall", "Recall", epoch, recall.mean(), "Epochs")
+            plots.plot("Precision_Epoch", "Precision", "Precision", epoch, precision.mean(), "Epochs")
+            plots.plot("f1_Epoch", "f1 Measure", "f1 Measure", epoch, f1.mean(), "Epochs")
         if epoch % opt.checkpoint_interval == 0:
             torch.save(model.state_dict(), f"checkpoints/yolov3_ckpt_%d.pth" % epoch)
