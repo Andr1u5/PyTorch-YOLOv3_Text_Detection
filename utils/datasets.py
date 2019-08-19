@@ -58,7 +58,7 @@ class ImageFolder(Dataset):
 
 
 class ListDataset(Dataset):
-    def __init__(self, image_path, label_path, img_size=416, augment=False, multiscale=False, normalized_labels=False): #Augmentation removed and normalized labels removed, img_size changed from 416 to 200
+    def __init__(self, image_path, label_path, img_size=416, augment=True, multiscale=False, normalized_labels=False): #Augmentation removed and normalized labels removed, img_size changed from 416 to 200
         
 
         img_list = []
@@ -89,7 +89,7 @@ class ListDataset(Dataset):
         self.augment = augment
         self.multiscale = multiscale
         self.normalized_labels = normalized_labels
-        self.min_size = self.img_size - 3 * 32
+        self.min_size = self.img_size - 5 * 32
         self.max_size = self.img_size + 3 * 32
         self.batch_count = 0
 
