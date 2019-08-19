@@ -8,7 +8,12 @@ Results now being logged to text files as well as Visdom dashboard.
 Utilizing visdom removed the need to use tensorboard and tensorflow, both packages no longer required.
 The data loader was also modified to read files from directories without a need of txt log containing path and name for each file.
 
+tesseract added to process the localized text areas and output text in .txt file format
+
 The work is taking place on this personal project to adapt YOLOv3 for text detection and changes will be regulary added
+## DeTEXT Dataset Download Link
+Dataset used in this project was downloaded from Robust Reading Competition website via link provied below
+https://rrc.cvc.uab.es/?ch=9&com=downloads
 
 ## Installation
 ##### Clone and install requirements
